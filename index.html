@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EAD Courses</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .1);
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #0d6efd;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        a {
+            color: #0d6efd;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>EAD Courses</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Course Name</th>
+                <th>Course URL</th>
+            </tr>
+        </thead>
+        <tbody id="courseTable"></tbody>
+    </table>
+
+    <script>
+
+        const API_URL =
+            'https://api.classplusapp.com/v2/course/preview/similar/eyJvcmdJZCI6MTI4Nn0=?tabCategoryId=1&limit=500&offset=0&requiredFilters=[100]';
+
+        async function loadCourses() {
+
+            try {
+
+                const response = await fetch(API_URL);
+                const result = await response.json();
+                console.log(result.data.coursesData);
+
+                // API structure ke hisab se adjust kar lena
+                const courses = result.data.coursesData || [];
+
+                const tbody = document.getElementById('courseTable');
+
+                tbody.innerHTML = '';
+
+                courses.forEach((course, index) => {
+
+                    const courseName =
+                        course.name ||
+                        course.courseName ||
+                        'N/A';
+
+                    const courseUrl =
+                        course.shareableLink ||
+                        course.singlePaymentLink ||
+                        `https://www.eadonlineclasses.com/courses/${course.id}`;
+
+                    tbody.innerHTML += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${courseName}</td>
+                    <td>
+                        <a href="${courseUrl}" target="_blank">
+                            ${courseUrl}
+                        </a>
+                    </td>
+                </tr>
+            `;
+                });
+
+            } catch (error) {
+                console.error(error);
+                document.getElementById('courseTable').innerHTML =
+                    `<tr>
+            <td colspan="3">
+                Failed to load courses
+            </td>
+        </tr>`;
+            }
+        }
+
+        loadCourses();
+
+    </script>
+
+</body>
+
+</html>
