@@ -60,8 +60,7 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th>Course Name</th>
-                <th>Course URL</th>
+                <th>Course Name : Course URL</th>            
             </tr>
         </thead>
         <tbody id="courseTable"></tbody>
@@ -102,12 +101,11 @@
                     tbody.innerHTML += `
                 <tr>
                     <td>${index + 1}</td>
-                    <td>${courseName}</td>
-                    <td>
-                        <a href="${courseUrl}" target="_blank">
+                    <td>${courseName}: <a href="${courseUrl}" target="_blank">
                             ${courseUrl}
                         </a>
                     </td>
+                 
                 </tr>
             `;
                 });
