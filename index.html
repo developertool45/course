@@ -49,6 +49,14 @@
         a:hover {
             text-decoration: underline;
         }
+        #searchInput {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            outline: none;            
+        }
     </style>
 </head>
 
@@ -61,12 +69,29 @@
             <tr>
                 <th>#</th>
                 <th>Course Name : Course URL</th>            
+                <th><input type="text" id="searchInput" placeholder="Search by course name"></th>            
             </tr>
         </thead>
         <tbody id="courseTable"></tbody>
     </table>
 
     <script>
+        const searchInput = document.getElementById('searchInput'); 
+         // Filter courses based on search input
+        function filterCourses() {
+            const filter = searchInput.value.toLowerCase();
+            const rows = document.querySelectorAll('#courseTable tr');
+
+            rows.forEach(row => {
+                const courseName = row.cells[1].textContent.toLowerCase();
+                if (courseName.includes(filter)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+        searchInput.addEventListener('input', filterCourses);       
 
         const API_URL =
             'https://api.classplusapp.com/v2/course/preview/similar/eyJvcmdJZCI6MTI4Nn0=?tabCategoryId=1&limit=500&offset=0&requiredFilters=[100]';
@@ -79,9 +104,11 @@
                 const result = await response.json();
                 console.log(result.data.coursesData);
 
+                // filter courses with input search
+                
+
                 // API structure ke hisab se adjust kar lena
                 const courses = result.data.coursesData || [];
-
                 const tbody = document.getElementById('courseTable');
 
                 tbody.innerHTML = '';
