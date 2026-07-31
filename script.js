@@ -90,7 +90,8 @@ function copyCourse() {
 
 const getFromBag = document.getElementById("getfrombag");
 getFromBag.addEventListener("click", () => {
-  navigator.clipboard.writeText(allUrl.join("\n")).then(() => {
-    console.log(allUrl);
-  });
+    navigator.clipboard.writeText(allUrl.join("\n")).then(() => {
+      alert("Copied to clipboard");
+      console.log(allUrl);
+    });
 });
