@@ -7,12 +7,13 @@
 body {
     font-family: Arial, sans-serif;
     background: #f5f7fb;
-    padding: 20px;
+    padding: 10px;
 }
 
 h1 {
-    text-align: center;
+    text-align: left;
     color: #333;
+    display: none;
 }
 
 table {
@@ -29,6 +30,22 @@ td {
     text-align: left;
     position: relative;
 }
+.bag{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.bag button{
+    display: inline-block;
+    text-align: end;
+    padding: 6px 12px;
+    background: #494848;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
 
 td button{
     position: absolute;
@@ -44,7 +61,7 @@ td button{
     border-radius: 4px;
     cursor: pointer;
 }
-td button:hover{
+td button:hover, .bag button:hover{
     background: #252525;
 }
 

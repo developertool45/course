@@ -1,7 +1,7 @@
 const API_URL =
-    "https://api.classplusapp.com/v2/course/preview/similar/eyJvcmdJZCI6MTI4Nn0=?tabCategoryId=1&limit=500&offset=0&requiredFilters=[100]";
-  
+  "https://api.classplusapp.com/v2/course/preview/similar/eyJvcmdJZCI6MTI4Nn0=?tabCategoryId=1&limit=500&offset=0&requiredFilters=[100]";
 
+const allUrl = [];
 const searchInput = document.getElementById("searchInput");
 // Filter courses based on search input
 function filterCourses() {
@@ -23,7 +23,7 @@ async function loadCourses() {
   try {
     const response = await fetch(API_URL);
     const result = await response.json();
-    console.log(result.data.coursesData);
+    // console.log(result.data.coursesData);
 
     // filter courses with input search
 
@@ -44,16 +44,14 @@ async function loadCourses() {
       tbody.innerHTML += `
                 <tr>
                     <td>${index + 1}</td>
-                    <td class="courseName">${courseName}: <a href="${courseUrl}" target="_blank">
+                    <td class="courseName"><span>${courseName}:- <a href="${courseUrl}" target="_blank">
                             ${courseUrl}
-                        </a> <button id="copyButton">Copy</button>
-                    </td>
-                 
-                </tr>
+                        </a></span> <button class="copyButton">Copy</button>
+                    </td> 
+                </tr>                
             `;
-    })    
-      coptyCourse();
-      
+    });
+    copyCourse();
   } catch (error) {
     console.error(error);
     document.getElementById("courseTable").innerHTML = `<tr>
@@ -66,13 +64,33 @@ async function loadCourses() {
 
 loadCourses();
 
-function coptyCourse() {
-    const copyButton = document.getElementById("copyButton");
-    copyButton.addEventListener("click", () => {
-      const courseUrl = copyButton.parentNode.querySelector("a").href;
-        navigator.clipboard.writeText(courseUrl).then(() => {
-          copyButton.textContent = "Copied";
-        console.log("Copied to clipboard: " + courseUrl);
+function copyCourse() {
+  const copyButton = document.querySelectorAll(".copyButton");
+  copyButton.forEach((button) => {
+    button.addEventListener("click", () => {
+      const targetCourse =
+        button.parentElement.querySelector(".courseName span");
+
+      const course = targetCourse.textContent.trim("").split(":-");
+      //   const courseUrl = targetCourse.textContent
+      //     .trim("")
+      //     .split(":-")[1]
+      //     .trim("");
+
+      const courseUrl = `${course[0].trim("")} :- ${course[1].trim("")}`;
+      console.log(`Copied: ${courseUrl}`);
+
+      navigator.clipboard.writeText(courseUrl).then(() => {
+        allUrl.push(courseUrl);
+        button.textContent = "Copied";
       });
     });
+  });
 }
+
+const getFromBag = document.getElementById("getfrombag");
+getFromBag.addEventListener("click", () => {
+  navigator.clipboard.writeText(allUrl.join("\n")).then(() => {
+    console.log(allUrl);
+  });
+});
