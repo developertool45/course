@@ -90,6 +90,10 @@ function copyCourse() {
 
 const getFromBag = document.getElementById("getfrombag");
 getFromBag.addEventListener("click", () => {
+    if (allUrl.length === 0) {
+      alert("No courses copied yet");
+      return;
+    }
     navigator.clipboard.writeText(allUrl.join("\n")).then(() => {
       alert("Copied to clipboard");
       console.log(allUrl);
