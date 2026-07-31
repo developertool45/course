@@ -1,7 +1,7 @@
 const API_URL =
   "https://api.classplusapp.com/v2/course/preview/similar/eyJvcmdJZCI6MTI4Nn0=?tabCategoryId=1&limit=500&offset=0&requiredFilters=[100]";
 
-const allUrl = [];
+let allUrl = [];
 const searchInput = document.getElementById("searchInput");
 // Filter courses based on search input
 function filterCourses() {
@@ -90,12 +90,19 @@ function copyCourse() {
 
 const getFromBag = document.getElementById("getfrombag");
 getFromBag.addEventListener("click", () => {
-    if (allUrl.length === 0) {
-      alert("No courses copied yet");
-      return;
-    }
-    navigator.clipboard.writeText(allUrl.join("\n")).then(() => {
-      alert("Copied to clipboard");
-      console.log(allUrl);
-    });
+  if (allUrl.length === 0) {
+    alert("No courses copied yet");
+    return;
+  }
+  navigator.clipboard.writeText(allUrl.join("\n")).then(() => {
+    alert("Copied to clipboard");
+    console.log(allUrl);
+  });
+});
+
+const clearBag = document.getElementById("clearbag");
+clearBag.addEventListener("click", () => {
+  window.location.reload();
+  allUrl = [];
+  alert("Bag cleared");
 });
